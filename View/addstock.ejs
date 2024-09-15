@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Center the form horizontally */
+            align-items: center; /* Center the form vertically */
+            height: 150vh; /* Make the form fill the entire viewport height */
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #form-container {
+            width: 50%;
+            padding: 40px; /* Add padding from all sides */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Add margin from the top */
+        }
+
+        form {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center; /* Center the heading */
+            background-color: #00008B; /* Background color for the header */
+            color: white; /* Text color for the header */
+            padding: 20px; /* Add some padding for better appearance */
+            border-radius: 8px 8px 0 0; /* Add border radius only to the top */
+            margin-top: 0; /* Remove margin from the top */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #85b7d9;
+            box-shadow: 0 0 5px rgba(133, 183, 217, 0.5);
+        }
+
+        button {
+            background-color: #0F52BA;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            height: 40px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <h2>Add Stock</h2>
+        <form action="/inventory/add-stock" method="post" novalidate>
+
+            <label for="userName">User Name:</label>
+            <input type="text" id="userName" name="userName" value="<%= user %>" readonly>
+
+            <label for="medicineName">Medicine Name:</label>
+            <input type="text" id="medicineName" name="medName" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="qty" required>
+
+            <label for="batchNumber">Batch Number:</label>
+            <input type="text" id="batchNumber"  name="batchNo" required>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="date" id="expiryDate" name="exp" required>
+
+            <label for="discount">Discount:</label>
+            <input type="number" id="discount"  name="discount" step="0.01">
+
+            <label for="gst">GST:</label>
+            <input type="number" id="gst" name="GST" required>
+
+            <label for="mrp">MRP:</label>
+            <input type="number" id="mrp"  name="MRP"required>
+
+            <label for="rate">Rate:</label>
+            <input type="number" id="rate"  name="rate">
+
+            <!-- Hidden input fields for Amount and Total Amount -->
+            <label for="amount" id="amountLabel" style="display: none;">Amount:</label>
+            <input type="number" id="amount"  name="amount" readonly style="display: none;">
+
+            <label for="totalAmount" id="totalAmountLabel" style="display: none;">Total Amount:</label>
+            <input type="number" id="totalAmount"  name="totalAmount" readonly style="display: none;">
+
+            <button type="button" onclick="saveData()">Get Total Amount</button>
+
+            <button type="submit" >Save Data</button>
+        </form>
+    </div>
+
+    <script>
+    function saveData() {
+        // Get values from input fields
+        var rate = parseFloat(document.getElementById('rate').value);
+        var discount = parseFloat(document.getElementById('discount').value);
+        var gst = parseFloat(document.getElementById('gst').value);
+        var qty = parseInt(document.getElementById('quantity').value);
+
+        // Calculate the amount
+        var amount = rate * qty;
+
+        // Calculate GST amount
+        var gstAmount = (rate * gst) / 100;
+
+        // Subtract discount from rate
+        var discountedRate = amount - discount;
+
+        // Calculate final amount
+        var finalAmount = discountedRate + (gstAmount * 2);
+
+        // Input the final result into the amount field
+        document.getElementById('amount').value = amount.toFixed(2);
+        document.getElementById('totalAmount').value = finalAmount.toFixed(2);
+
+        // Show the hidden fields
+        document.getElementById('amountLabel').style.display = 'block';
+        document.getElementById('amount').style.display = 'block';
+        document.getElementById('totalAmountLabel').style.display = 'block';
+        document.getElementById('totalAmount').style.display = 'block';
+    }
+    </script>
+</body>
+</html>

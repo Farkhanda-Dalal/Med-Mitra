@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Expiry</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .card {
+        border-radius: 8px;
+        margin-bottom: 20px;
+        width: 80%; /* Set the width to fill the container */
+        margin: 0 auto; /* Center-align the card horizontally */
+    }
+
+    .card-header {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        cursor: pointer; /* Add cursor pointer to indicate clickable */
+    }
+
+    .medicine {
+        margin-bottom: 10px;
+    }
+
+    .medicine-name {
+        font-weight: bold;
+    }
+
+    .expiry-date {
+        color: #666;
+    }
+
+    /* Styles for different categories */
+    .good-card {
+        background-color: lightgreen;
+    }
+
+    .average-card {
+        background-color: lightyellow;
+    }
+
+    .bad-card {
+        background-color: lightcoral;
+    }
+
+    .card-body {
+        padding: 20px;
+        max-height: 300px; /* Set the maximum height for the card body */
+        overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
+    }
+
+    .toggle-button {
+        font-size: 40px; /* Increased font size */
+        padding: 5px; /* Increased padding */
+        border: none;
+        background: none;
+        cursor: pointer;
+        outline: none;
+    }
+</style>
+</head>
+<body>
+    <% function renderResults(category, results) { %>
+        <% if (typeof category !== "undefined" && category === currentCategory && typeof results !== "undefined" && results.length > 0) { %>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Medicine Name</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% results.forEach(item => { %>
+                        <tr>
+                            <td><%= item.medName %></td>
+                            <td><%= item.qty %></td>
+                            <td><%= item.expFormatted %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } %>
+    <% } %>
+    <div class="container text-center">
+        <!-- Good Card -->
+        <div class="card good-card mb-5" >
+            <div class="card-header d-flex justify-content-between align-items-center" onclick="toggleCardBody(this)">
+                <span>Good</span>
+                <a href="/inventory/exp-stock-good/<%= user %>"><button class="toggle-button">&#x25BE;</button></a> 
+            </div>
+            <div class="card-body" id="goodCardBody">
+                <% if (typeof results!=="undefined") { %>
+                    <%= renderResults("good", results) %>
+                <% } %>
+                
+            </div>
+        </div>
+        
+        <!-- Average Card -->
+        <div class="card average-card mb-5" >
+            <div class="card-header d-flex justify-content-between align-items-center" onclick="toggleCardBody(this)">
+                <span>Average</span>
+                <a href="/inventory/exp-stock-avg/<%= user %>"><button class="toggle-button">&#x25BE;</button></a>
+            </div>
+            <div class="card-body" id="averageCardBody">
+                <% if (typeof results!=="undefined") { %>
+                    <%= renderResults("average", results) %>
+                <% } %>
+                
+            </div>
+        </div>
+        
+        <!-- Bad Card -->
+        <div class="card bad-card mb-5" >
+            <div class="card-header d-flex justify-content-between align-items-center" onclick="toggleCardBody(this)">
+                <span>Bad</span>
+                <a href="/inventory/exp-stock-bad/<%= user %>"><button class="toggle-button">&#x25BE;</button></a>
+            </div>
+            <div class="card-body" id="badCardBody">
+                <% if (typeof results!=="undefined") { %>
+                    <%= renderResults("bad", results) %>
+                <% } %>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleCardBody(header) {
+            $(header).next(".card-body").slideToggle();
+        }
+    </script>
+    
+</body>
+</html>

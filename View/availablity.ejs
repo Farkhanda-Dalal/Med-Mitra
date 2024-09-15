@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Availability Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Set background color */
+        }
+
+        .form {
+            max-width: 700px; /* Limit form width */
+            margin: auto; /* Center form horizontally */
+            margin-top: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Add space between form groups */
+        }
+
+        .form-label {
+            font-weight: bold; /* Bold label text */
+        }
+
+        /* Additional styling for dynamically generated fields */
+        .dynamic-fields-container {
+            margin-top: 20px;
+        }
+
+        .dynamic-field-group {
+            margin-bottom: 20px;
+        }
+
+        /* Hide the "Check Availability" button by default */
+        #checkAvailabilityBtn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <% if (typeof notification !== 'undefined') { %>
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong> <%= notification %> </strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	<% } %>
+    <form id="availabilityForm" class="form" action="/transaction/available/<%= user %>" method="post">
+        <div class="border p-3 rounded"> <!-- Added border and rounded corners -->
+            <div class="form-group">
+                <label for="medicineCount" class="form-label">Number of Medicines</label>
+                <input type="number" class="form-control" id="medicineCount">
+            </div>
+            <button id="generateFieldsBtn" class="btn btn-primary">Generate Medicine Fields</button>
+            <div id="medicineFields" class="dynamic-fields-container"></div> <!-- Container for dynamically generated fields -->
+            <button id="checkAvailabilityBtn" type="submit" class="btn btn-primary">Check Availability</button> <!-- Submit button -->
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+       
+
+        // JavaScript to generate dynamic medicine fields
+        document.getElementById('generateFieldsBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+
+            var medicineCount = parseInt(document.getElementById('medicineCount').value);
+            if (isNaN(medicineCount) || medicineCount <= 0) {
+                alert('Please enter a valid number greater than 0.');
+                return;
+            }
+
+            var fieldsContainer = document.createElement('div');
+            fieldsContainer.classList.add('container', 'mt-4');
+
+            for (var i = 0; i < medicineCount; i++) {
+                var fieldGroup = document.createElement('div');
+                fieldGroup.classList.add('row', 'mb-3', 'dynamic-field-group');
+
+                var medicineNameInput = document.createElement('input');
+                medicineNameInput.setAttribute('type', 'text');
+                medicineNameInput.setAttribute('class', 'form-control');
+                medicineNameInput.setAttribute('placeholder', 'Medicine Name ' + (i + 1));
+                medicineNameInput.setAttribute('name', 'medicineName_' + i); // Set the name attribute
+
+                var quantityInput = document.createElement('input');
+                quantityInput.setAttribute('type', 'number');
+                quantityInput.setAttribute('class', 'form-control');
+                quantityInput.setAttribute('placeholder', 'Quantity ' + (i + 1));
+                quantityInput.setAttribute('name', 'quantity_' + i); // Set the name attribute
+
+                var colMedicine = document.createElement('div');
+                colMedicine.classList.add('col');
+                colMedicine.appendChild(medicineNameInput);
+
+                var colQuantity = document.createElement('div');
+                colQuantity.classList.add('col');
+                colQuantity.appendChild(quantityInput);
+
+                fieldGroup.appendChild(colMedicine);
+                fieldGroup.appendChild(colQuantity);
+
+                fieldsContainer.appendChild(fieldGroup);
+            }
+
+            var existingFieldsContainer = document.getElementById('medicineFields');
+            existingFieldsContainer.innerHTML = ''; // Clear existing fields
+            existingFieldsContainer.appendChild(fieldsContainer);
+
+            // Show the check availability button after generating fields
+            document.getElementById('checkAvailabilityBtn').style.display = 'block';
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+</body>
+</html>

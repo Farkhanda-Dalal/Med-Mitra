@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../Node"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "medtrackhub-pblproject"
+	}
+}
