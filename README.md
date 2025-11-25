@@ -2,6 +2,26 @@
 
 Lightweight pharmacy inventory management system.
 
+## MedMitra in Action
+
+#### Registration and Login
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.56_232fcdf0.jpg">
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.56_8528f367.jpg">
+
+#### Home
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.56_bab1aab0.jpg">
+
+#### Stock Addition
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.57_22a94030.jpg">
+
+#### Expiry Report
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.58_78ebd23f.jpg">
+
+#### Stock Report
+<img src="https://github.com/Farkhanda-Dalal/Med-Mitra/blob/main/Images/WhatsApp%20Image%202025-10-30%20at%2000.22.58_cac7aa2b.jpg">
+
+
+
 ## Project at a glance
 
 - Main entry: `app.mjs` (ES module)
@@ -103,4 +123,3 @@ These are short, best-effort summaries — check the files in `Model/` for preci
 - Transaction (Model/Transaction.mjs)
   - typical fields: items (array of medicines + qty + price), totalAmount, user, date
 
- ## Project at a Glance
